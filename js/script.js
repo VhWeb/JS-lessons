@@ -17,7 +17,7 @@ for (let i = 0; i < 2; i++) {
         console.log("done");
         appData.expenses[a] = b;
     } else {
-        // повторяет цикл
+        // повторяет цикл если неправильно введены данные
         i = i - 1; 
     }
 }
