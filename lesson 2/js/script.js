@@ -1,5 +1,7 @@
 window.addEventListener('DOMContentLoaded', function(){
     'use strict';
+    //Рабочие Табы
+
     //получаем кнопки таба, родительского элемента кнопок, и контент табов
     let tab = document.querySelectorAll('.info-header-tab'), info = document.querySelector('.info-header'), tabContent = document.querySelectorAll('.info-tabcontent');
     //пишем функцию которая будет скрывать наши табы которая будет принимать один технический аргумент
@@ -34,4 +36,49 @@ window.addEventListener('DOMContentLoaded', function(){
             }
         }
     });
+
+    //Таймер
+    //задаем дедлайн
+    let deadline = '2020-04-01';
+    //узнаем разницу между сегодняшней даты и дедлайном
+    function getTimeRemaining(endtime) {
+        let t = Date.parse(endtime) - Date.parse(new Date()),
+            seconds = Math.floor((t/1000)%60),
+            minutes = Math.floor((t/1000/60)%60),
+            hours = Math.floor((t/(1000*60*60)));
+        
+        return {
+            'total':t,
+            'hours':hours,
+            'minutes':minutes,
+            'seconds':seconds
+        };
+    }
+    //превращаем статичную верстку в динамичную
+    //создаем функцию которая будет принимать 2 параметра (где мы его устанавливаем, и дедлайн)
+    function setClock(id, endtime) {
+        let timer = document.getElementById(id),
+            hours = timer.querySelector('.hours'),
+            minutes = timer.querySelector('.minutes'),
+            seconds = timer.querySelector('.seconds'),
+            timeInterval = setInterval(updateClock, 1000);
+        //прописываем интервал с которым будет обновлятся наш таймер
+        //прописываем функцию которая будет обновлять наш таймер
+        function updateClock() {
+            //получаем нашу функцию путем создания переменной
+            let t = getTimeRemaining(endtime);
+            //t вернет нам объект поэтому мы пишем следующее
+            hours.textContent = t.hours;
+            minutes.textContent = t.minutes;
+            seconds.textContent = t.seconds;
+            if (t.hours < 10) hours.textContent = "0" + t.hours;
+            if (t.minutes < 10) minutes.textContent = "0" + t.minutes;
+            if (t.seconds < 10) seconds.textContent = "0" + t.seconds;
+            if (t.total <= 0){
+                clearInterval(timeInterval);
+            }
+        }
+    }
+    //данная функция уникальна поскольку позволяет создать таймер в любом месте в верстке
+    setClock('timer', deadline);
 });
