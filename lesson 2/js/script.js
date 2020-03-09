@@ -81,4 +81,33 @@ window.addEventListener('DOMContentLoaded', function(){
     }
     //данная функция уникальна поскольку позволяет создать таймер в любом месте в верстке
     setClock('timer', deadline);
+
+    //Модальное окно
+    //получаем наши элементы (кнопку, модалку, крестик(закрыть модалку))
+    let more = document.querySelector('.more'),
+        overlay = document.querySelector('.overlay'),
+        close = document.querySelector('.popup-close'),
+        descr = document.querySelectorAll('.description');
+    function openPopup() {
+        overlay.style.display = 'block';
+        document.body.style.overflow = 'hidden';
+    }
+    //прописываем функцию открывающую модалку и добавляющую анимацию и запрещаем листать страницу
+    for(let d = 0; d < descr.length; d++){
+        descr[d].addEventListener('click', function(event){
+            let target = event.target;
+            if(target && target.classList.contains('description-btn')) {
+                openPopup();
+            }
+        });
+    }
+    more.addEventListener('click', openPopup, function() {
+        this.classList.add('more-splash');
+    });
+    //прописываем функцию закрывающую модалку и убирающую анимацию с кнопки
+    close.addEventListener('click',function() {
+        overlay.style.display = 'none';
+        more.classList.remove('.more-splash');
+        document.body.style.overflow = '';
+    });
 });
