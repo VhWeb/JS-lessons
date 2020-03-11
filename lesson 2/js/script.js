@@ -1,7 +1,6 @@
 window.addEventListener('DOMContentLoaded', function(){
     'use strict';
     //Рабочие Табы
-
     //получаем кнопки таба, родительского элемента кнопок, и контент табов
     let tab = document.querySelectorAll('.info-header-tab'), info = document.querySelector('.info-header'), tabContent = document.querySelectorAll('.info-tabcontent');
     //пишем функцию которая будет скрывать наши табы которая будет принимать один технический аргумент
@@ -36,7 +35,6 @@ window.addEventListener('DOMContentLoaded', function(){
             }
         }
     });
-
     //Таймер
     //задаем дедлайн
     let deadline = '2020-04-01';
@@ -46,7 +44,6 @@ window.addEventListener('DOMContentLoaded', function(){
             seconds = Math.floor((t/1000)%60),
             minutes = Math.floor((t/1000/60)%60),
             hours = Math.floor((t/(1000*60*60)));
-        
         return {
             'total':t,
             'hours':hours,
