@@ -116,12 +116,12 @@ window.addEventListener('DOMContentLoaded', function(){
     };
     //Получаем форму и ее элементы, и создаем новый блок с ответом пользователю
     let form = document.querySelector('.main-form'),
+        contactForm = document.getElementById('form'),
         input = form.getElementsByTagName('input'),
         statusMessage = document.createElement('div');
 
     statusMessage.classList.add('status');
-    
-    form.addEventListener('submit', function(event) {
+    let ourEvent = addEventListener('submit', function(event) {
         //отменяем перезагрузку страницы
         event.preventDefault();
         //добавляем в форм блок
@@ -133,10 +133,14 @@ window.addEventListener('DOMContentLoaded', function(){
         request.setRequestHeader('Content-Type', 'application/json', 'charset=utf-8');
         //получаем данные которые ввел пользователь используя встроенный объект в котором лежат данные которые ввел пользователь
         let formData = new FormData(form);
+        let formDataS = new FormData(contactForm);
         //создаем промежуточный пустой объект
         let obj = {};
         //превращаем объект formData в обычный используя obj
         formData.forEach(function(value, key){
+            obj[key] = value;
+        });
+        formDataS.forEach(function(value, key){
             obj[key] = value;
         });
         //превращаем наш объект obj в json
@@ -158,4 +162,6 @@ window.addEventListener('DOMContentLoaded', function(){
             input[i].value = '';
         }
     });
+    form.ourEvent;
+    contactForm.ourEvent;
 });
