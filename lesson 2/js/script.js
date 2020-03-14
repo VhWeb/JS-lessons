@@ -107,7 +107,7 @@ window.addEventListener('DOMContentLoaded', function(){
         more.classList.remove('.more-splash');
         document.body.style.overflow = '';
     });
-        //Отправка формы
+    //Отправка формы
     //Создаем объект с сообщениями состояния нашего запроса
     let message = {
         loading: "Загрузка...",
