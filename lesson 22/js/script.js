@@ -257,13 +257,14 @@ window.addEventListener('DOMContentLoaded', function(){
         personsSum = +this.value;
         //пишем функцию расчета стоимости общей поездки за определенное количество дней и людей
         //обычно такую формулу предоставляет заказчик
-        total = (daysSum + personsSum)*4000;
+        //total = (daysSum + personsSum)*4000;
         //если второе поле у нас пустует то мы пишем следующее условие
-        if(restDays == ''){
+        if(restDays.value == ''){
+            personsSum = 0;
             totalValue.innerHTML = 0;
         } else {
             //если второе поле у нас не пустует то мы пишем следующее условие
-            totalValue.innerHTML = total;
+            totalValue.innerHTML = (daysSum + personsSum)*4000;
         }
     });
     //вешаем обработчик событий на инпут с количеством дней
@@ -272,13 +273,15 @@ window.addEventListener('DOMContentLoaded', function(){
         daysSum = +this.value;
         //пишем функцию расчета стоимости общей поездки за определенное количество дней и людей
         //обычно такую формулу предоставляет заказчик
-        total = (daysSum + personsSum)*4000;
+        //total = (daysSum + personsSum)*4000;
         //если второе поле у нас пустует то мы пишем следующее условие
-        if(persons.value == ''){
+        if(persons.value == '' && personsSum == 0){
+            personsSum = 0;
+            daysSum = 0;
             totalValue.innerHTML = 0;
         } else {
             //если второе поле у нас не пустует то мы пишем следующее условие
-            totalValue.innerHTML = total;
+            totalValue.innerHTML = (daysSum + personsSum)*4000;
         }
     });
     //вешаем обработчик событий на список с опциями
