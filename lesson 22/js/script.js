@@ -175,4 +175,125 @@ window.addEventListener('DOMContentLoaded', function(){
     //вызываем функции
     sendForm(form);
     sendForm(contactForm);
+
+    //Слайдер
+    //получаем блокти для переменные на странице
+    //переменная slideIndex отвечает за тот слайд который показывается в текущий момент
+    //это параметр текущего слайда
+    let slideIndex = 1,
+        slides = document.querySelectorAll('.slider-item'),
+        prev = document.querySelector('.prev'),
+        next = document.querySelector('.next'),
+        dotsWrap = document.querySelector('.slider-dots'),
+        dots = document.querySelectorAll('.dot');
+    //функция показа слайдера принимает 1 аргумент
+    //вызываем нашу функцию т.к. у нас Function Declaration
+    showSlides(slideIndex);
+    //это сделано для того чтобы в будущем когда мы вызываем эту функцию она бы переключала нам эти слайды
+    function showSlides (n) {
+        //пишем проверку чтобы если были показаны все наши слайды произошла перемотка к самому первому слайду
+        if (n > slides.length) {
+            slideIndex = 1;
+        }
+        //пишем проверку чтобы если были показаны все наши слайды(в обратном порядке) произошла перемотка к самому последнему слайду
+        if (n < 1) {
+            slideIndex = slides.length
+        }
+        //скрываем все наши слайды перебирая через цикл
+        slides.forEach((item) => item.style.display = 'none');
+        //убираем класс активной точки по слайду
+        dots.forEach((item) => item.classList.remove('dot-active'));
+        //показываем только первый слайд при этом конвертируя нумерацию псевдомассива
+        slides[slideIndex - 1].style.display = 'block';
+        dots[slideIndex - 1].classList.add('dot-active');
+    }
+    //пишем функцию которая будет увеличивать порядковый номер наших слайдов
+    //здесь мы сразу же вызываем функцию показа слайдов
+    function plusSlides(n){
+        showSlides(slideIndex += n);
+    }
+    //пишем функцию которая будет определять текущий слайд и устанавливать его
+    function currentSlide(n){
+        showSlides(slideIndex = n);
+    }
+    //вешаем обработчики события перемотки слайдера назад и вперед  на стрелки
+    prev.addEventListener('click', function(){
+        //здесь мы можем реализовать на сколько слайдов будут происходить перемотка
+        plusSlides(-1);
+    });
+    next.addEventListener('click', function(){
+        plusSlides(1);
+    });
+    //используя делегирование делаем наши точки кликабельными чтобы при нажатии была перемотка на соответсвующий слайд
+    //даже если будут новые слайды то обработчки будут на всех точках
+    //вешаем обработчик на блок с точками
+    dotsWrap.addEventListener('click', function(e){
+        //перебираем наши точки с помощью цикла
+        //чтобы наш слайдер взаимодействовал с элементами а не со стилями
+        //цикл закончится тогда когда наши точки закончатся +1
+        for(let i = 0; i < dots.length + 1; i++){
+            if(event.target.classList.contains('dot') && event.target == dots[i-1]) {
+                currentSlide(i);
+            }
+        }
+        //цикл выше будет сравнивать нажатую точку с показанным слайдом
+    });
+
+
+    //Калькулятор
+    //получаем наши инпуты и задаем их стартовые значения
+    let persons = document.querySelectorAll('.counter-block-input')[0],
+        restDays = document.querySelectorAll('.counter-block-input')[1],
+        place = document.getElementById('select'),
+        totalValue = document.getElementById('total'),
+        personsSum = 0,
+        daysSum = 0,
+        total = 0;
+
+    totalValue.innerHTML = 0;
+    //вешаем обработчик событий на инпут с количеством людей
+    persons.addEventListener('change', function() {
+        //к этой переменной мы будем добавлять то что пользователь ввел в поле persons
+        personsSum = +this.value;
+        //пишем функцию расчета стоимости общей поездки за определенное количество дней и людей
+        //обычно такую формулу предоставляет заказчик
+        total = (daysSum + personsSum)*4000;
+        //если второе поле у нас пустует то мы пишем следующее условие
+        if(restDays == ''){
+            totalValue.innerHTML = 0;
+        } else {
+            //если второе поле у нас не пустует то мы пишем следующее условие
+            totalValue.innerHTML = total;
+        }
+    });
+    //вешаем обработчик событий на инпут с количеством дней
+    restDays.addEventListener('change', function() {
+        //к этой переменной мы будем добавлять то что пользователь ввел в поле persons
+        daysSum = +this.value;
+        //пишем функцию расчета стоимости общей поездки за определенное количество дней и людей
+        //обычно такую формулу предоставляет заказчик
+        total = (daysSum + personsSum)*4000;
+        //если второе поле у нас пустует то мы пишем следующее условие
+        if(persons.value == ''){
+            totalValue.innerHTML = 0;
+        } else {
+            //если второе поле у нас не пустует то мы пишем следующее условие
+            totalValue.innerHTML = total;
+        }
+    });
+    //вешаем обработчик событий на список с опциями
+    place.addEventListener('change', function(){
+        //сперва пишем условие где мы проверяем что если какое-либо поле пустое
+        if(restDays.value == '' || persons.value == '') {
+            totalValue.innerHTML = 0;
+        } else {
+            //если наши оба поля заполнены, то прописываем следующее условие
+            //для того чтобы избежать потери данных в переменной total
+            //мы прописываем промежуточную переменную a в которую ложим наш total
+            let a = total;
+            //здесь мы умножаем нашу общую сумму на выбранную(this.selectedIndex) опцию из списка 
+            totalValue.innerHTML = a * this.options[this.selectedIndex].value;
+        }
+    });
+
 });
